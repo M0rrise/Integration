@@ -137,57 +137,6 @@ for i in range(len(x_liste)):
           f"{l_werte[i]:.5f}\t{l_werte[i]-sollwert:+.5e}  "
           f"{m_werte[i]:.5f}\t{m_werte[i]-sollwert:+.5e}")
 
-for i in range(50):
-    print(f"{r_werte[i]-sollwert:.3}  ")
-
-
-#f"{l_werte[i]-sollwert:+.5e}  {m_werte[i]-sollwert:+.5e}"
-
-
-def plot_näherung(f, a, b, n, methode_name):
-    x_vals = np.linspace(a, b, 1000)
-    y_vals = f(x_vals)
-
-    fig, ax = plt.subplots()
-    ax.plot(x_vals, y_vals, 'r', label='f(x)')
-
-    h = (b - a) / n
-    if methode_name == "links":
-        for i in range(n):
-            xi = a + i * h
-            plt.add_patch(plt.Rectangle((xi, 0), h, f(xi), alpha=0.3, color="green"))
-    elif methode_name == "rechts":
-        for i in range(n):
-            xi = a + (i + 1) * h
-            plt.add_patch(plt.Rectangle((xi - h, 0), h, f(xi), alpha=0.3, color="blue"))
-    elif methode_name == "mitte" or methode_name == "rechteck":
-        for i in range(n):
-            xi = a + (i + 0.5) * h
-            plt.add_patch(plt.Rectangle((xi - h/2, 0), h, f(xi), alpha=0.3, color="orange"))
-    elif methode_name == "trapez":
-        for i in range(n):
-            x0 = a + i * h
-            x1 = a + (i + 1) * h
-            plt.plot([x0, x0, x1, x1], [0, f(x0), f(x1), 0], 'b', alpha=0.5)
-            plt.fill([x0, x0, x1, x1], [0, f(x0), f(x1), 0], alpha=0.3, color="yellow")
-    elif methode_name == "simpson":
-        if n % 2 == 1:
-            n += 1
-        for i in range(0, n, 2):
-            x0 = a + i * h
-            x1 = a + (i + 1) * h
-            x2 = a + (i + 2) * h
-            xp = np.linspace(x0, x2, 100)
-            fp = lambda x: (f(x0)*(x-x1)*(x-x2)/((x0-x1)*(x0-x2)) +
-                            f(x1)*(x-x0)*(x-x2)/((x1-x0)*(x1-x2)) +
-                            f(x2)*(x-x0)*(x-x1)/((x2-x0)*(x2-x1)))
-            plt.plot(xp, fp(xp), 'purple', alpha=0.6)
-            plt.fill_between(xp, fp(xp), alpha=0.2, color='red')
-
-    plt.set_title(f"{methode_name.capitalize()}-Regel für n={n}")
-    plt.legend()
-    plt.grid()
-    plt.show()
 
 
 
